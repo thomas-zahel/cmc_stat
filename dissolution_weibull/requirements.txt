@@ -1,0 +1,9 @@
+# Additional dependencies for Weibull Bayesian analysis
+# Used by: dissolution_weibull_comparison_streamlit.py
+# These are heavy dependencies and only needed for this specific app
+
+# Bayesian modeling framework
+pymc>=5.10.0,<6.0.0
+arviz>=0.18.0,<1.0.0
+
+# PyMC dependencies (pytensor is installed automatically with pymc)

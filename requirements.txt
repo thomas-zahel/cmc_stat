@@ -1,0 +1,15 @@
+# Core dependencies for CMC Statistical Analysis Streamlit Apps
+# Version ranges: minimum tested version with upper bounds for stability
+# Generated: 2026-02-03
+
+# Core numerical and scientific computing
+numpy>=1.24.0,<2.0.0
+scipy>=1.10.0,<2.0.0
+pandas>=2.0.0,<3.0.0
+matplotlib>=3.7.0,<4.0.0
+
+# Streamlit web framework
+streamlit>=1.30.0,<2.0.0
+
+# Interactive plotting (required by biosimilarity_contour_comparison.py)
+plotly>=5.18.0,<6.0.0
