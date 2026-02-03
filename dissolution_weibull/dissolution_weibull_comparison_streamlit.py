@@ -7,6 +7,20 @@ import streamlit as st
 import pymc as pm
 import arviz as az
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from common.branding import BrandingConfig, apply_branding
+
+apply_branding(
+    BrandingConfig(
+        app_title="Bayesian Weibull Dissolution Modeling",
+        header_title="Dissolution Profiles — Bayesian Weibull",
+        header_subtitle="PyMC-based Weibull fit and comparison",
+    )
+)
+
 # Seed per session
 if "random_seed" not in st.session_state:
     st.session_state.random_seed = 2026

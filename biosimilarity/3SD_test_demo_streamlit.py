@@ -6,6 +6,20 @@ import streamlit as st
 import pandas as pd
 from scipy.stats import norm
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from common.branding import BrandingConfig, apply_branding
+
+apply_branding(
+    BrandingConfig(
+        app_title="Simple Range Test Interactive Demo",
+        header_title="Analytical Biosimilarity — Simple Range Test",
+        header_subtitle="Interactive 3SD-style criteria exploration",
+    )
+)
+
 # Function to run the test once
 def run_test(mean_diff, sd_diff, n, x_sd=3.0, proportion=0.99):
     # reference population ground truth

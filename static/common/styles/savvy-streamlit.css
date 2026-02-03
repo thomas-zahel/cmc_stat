@@ -1,0 +1,22 @@
+/* TODO(guilherme_zagatti): Too hacky, not great results. We leave during prototype development for future reference.
+header {
+    background-color: #1375BC !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 2.5rem;
+}
+
+[data-testid="stSidebarCollapsedControl"] {
+    top: .75rem !important;
+}
+
+[data-testid="stSidebarCollapsedControl"] svg {
+    color: #ffffff !important;
+}
+
+[data-testid="stStatusWidget"] svg {
+    color: #ffffff !important;
+}
+ */

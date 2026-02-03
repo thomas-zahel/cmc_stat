@@ -9,8 +9,18 @@ import streamlit as st
 from scipy.stats import norm, t
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent / 'common'))
-from bootstrap_biosimilarity_test import biosimilarity_bootstrap_test
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from common.branding import BrandingConfig, apply_branding
+from common.bootstrap_biosimilarity_test import biosimilarity_bootstrap_test
+
+apply_branding(
+    BrandingConfig(
+        app_title="Biosimilarity Test Comparison",
+        header_title="Analytical Biosimilarity — Test Comparison",
+        header_subtitle="Contour plots across parameter space",
+    )
+)
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import warnings
@@ -368,8 +378,6 @@ def calculate_error_metrics(grid, mean_diffs, sd_ratios, p_tp, p_rp, boundary_ra
 # ============================================================================
 
 def main():
-    st.set_page_config(layout="wide", page_title="Biosimilarity Test Comparison")
-    
     st.title("Biosimilarity Test Comparison - Contour Plot Analysis")
     st.markdown("---")
     

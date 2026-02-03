@@ -1,0 +1,334 @@
+/* Custom CSS for Hybrid Model Dashboard - Dash version */
+
+/* Import Roboto font */
+@font-face {
+    font-family: 'Roboto';
+    src: url('/assets/common/fonts/roboto-latin-400-normal.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/assets/common/fonts/roboto-latin-500-normal.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/assets/common/fonts/roboto-latin-600-normal.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/assets/common/fonts/roboto-latin-400-italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/assets/common/fonts/roboto-latin-500-italic.woff2') format('woff2');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/assets/common/fonts/roboto-latin-600-italic.woff2') format('woff2');
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* Color scheme from Streamlit config */
+:root {
+    --primary-color: #1375bc;
+    --secondary-color: #f0f2f6;
+    --background-color: #ffffff;
+    --text-color: #262730;
+    --border-radius: 0.75rem;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Override Bootstrap primary color */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #0f5f9f;
+    border-color: #0f5f9f;
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--primary-color);
+}
+
+.nav-pills .nav-link {
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5rem;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: rgba(19, 117, 188, 0.1);
+}
+
+/* Card styling */
+.card {
+    border-radius: var(--border-radius);
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+/* Form controls */
+.form-control, .form-select {
+    border-radius: calc(var(--border-radius) * 0.5);
+}
+
+/* Alert styling */
+.alert {
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+}
+
+/* Sidebar specific styles */
+.sidebar-logo {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Connection status */
+#connection-status {
+    font-size: 0.9rem;
+}
+
+/* Small text */
+small, .small {
+    font-size: 0.85rem;
+}
+
+/* Scrollbar styling for sidebar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+}
+
+/* Prevent dropdown menu items from wrapping - show ellipsis instead */
+.Select-menu-outer .VirtualizedSelectOption {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Training page form styling */
+.card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Labels - better spacing and weight */
+label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* Card headers */
+.card h5, .card h6 {
+    color: #343a40;
+    font-weight: 600;
+}
+
+/* Better spacing for form sections */
+.card-body > *:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Radio items - inline with better spacing */
+.form-check-inline {
+    margin-right: 1.5rem;
+}
+
+/* Accordion styling */
+.accordion-button {
+    background-color: #f8f9fa;
+    font-weight: 500;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #e9ecef;
+    color: var(--primary-color);
+}
+
+/* Checklist items */
+.form-check {
+    padding-left: 1.5rem;
+}
+
+.form-check-input {
+    margin-top: 0.3rem;
+}
+
+/* Buttons - better spacing and depth */
+.btn {
+    border-radius: calc(var(--border-radius) * 0.5);
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Primary button */
+.btn-success {
+    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.3);
+}
+
+.btn-success:hover {
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+}
+
+/* Small buttons in forms */
+.btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+/* Input focus states */
+.form-control:focus,
+.Select.is-focused > .Select-control {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(19, 117, 188, 0.25);
+}
+
+/* Container for nested forms (callbacks, hypers) */
+.card .card {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e9ecef;
+}
+
+.card .card:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Text muted - softer color */
+.text-muted {
+    color: #6c757d !important;
+    font-size: 0.875rem;
+}
+
+/* Better row spacing in forms */
+.row + .row {
+    margin-top: 1rem;
+}
+
+/* Pills/Radio button styling */
+.btn-check:checked + .btn-outline-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Placeholder text */
+::placeholder {
+    color: #adb5bd;
+    opacity: 1;
+}
+
+/* Disabled inputs */
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: #f8f9fa;
+    opacity: 0.7;
+}
+
+/* Page content spacing */
+#page-content {
+    /* Removed max-width - using inline styles instead */
+}
+
+/* Headings */
+h2 {
+    font-weight: 600;
+    color: #212529;
+}
+
+h5 {
+    font-weight: 600;
+    color: #343a40;
+    margin-bottom: 1rem;
+}
+
+h6 {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.75rem;
+}
+
+/* Alert improvements */
+.alert {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Better spacing between form elements */
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    input[type="number"].form-control {
+        max-width: 100%;
+    }
+    
+    .input-group {
+        max-width: 100%;
+    }
+}

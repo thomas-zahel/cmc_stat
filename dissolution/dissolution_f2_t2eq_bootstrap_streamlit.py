@@ -10,8 +10,17 @@ from scipy.stats import norm
 # Import T2EQ test
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent / 'common'))
-from t2eq import t2eq_test
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from common.branding import BrandingConfig, apply_branding
+from common.t2eq import t2eq_test
+
+apply_branding(
+    BrandingConfig(
+        app_title="Dissolution Profile Comparison",
+        header_title="Dissolution Profiles",
+        header_subtitle="Bootstrap f2 and T2EQ equivalence testing",
+    )
+)
 
 # Seed per session
 if "random_seed" not in st.session_state:

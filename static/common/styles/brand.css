@@ -1,0 +1,7 @@
+/* Brand overrides for all apps */
+/* Note: fonts are injected via common.branding (base64). */
+
+/* Make the top padding consistent with our header */
+[data-testid="stAppViewContainer"] .main .block-container {
+  padding-top: 1rem;
+}
