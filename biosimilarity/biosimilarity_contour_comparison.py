@@ -16,9 +16,9 @@ from common.bootstrap_biosimilarity_test import biosimilarity_bootstrap_test
 
 apply_branding(
     BrandingConfig(
-        app_title="Biosimilarity Test Comparison",
-        header_title="Analytical Biosimilarity — Test Comparison",
-        header_subtitle="Contour plots across parameter space",
+        app_title="Biosimilarity Test Comparison - Operating Characteristics",
+        header_subtitle="Contour plots on operating charateristics across parameter space",
+        layout="wide",
     )
 )
 import plotly.graph_objects as go
@@ -33,7 +33,7 @@ warnings.filterwarnings('ignore')
 
 def test_3sd(ref_sample, test_sample, p_tp, p_rp):
     """
-    3SD-type test: Check if X% (p_tp) of test products are within 
+    x*SD-type test: Check if X% (p_tp) of test products are within 
     the Y% (p_rp) quantile range of reference.
     
     Returns True if biosimilar (passes test).
@@ -378,7 +378,7 @@ def calculate_error_metrics(grid, mean_diffs, sd_ratios, p_tp, p_rp, boundary_ra
 # ============================================================================
 
 def main():
-    st.title("Biosimilarity Test Comparison - Contour Plot Analysis")
+    #st.title("Biosimilarity Test Comparison - Contour Plot Analysis")
     st.markdown("---")
     
     # Sidebar controls
@@ -485,7 +485,7 @@ def main():
     
     # Main display
     if not compute_button:
-        st.info("👈 Configure parameters in the sidebar and click **Run Comparison** to start.")
+        st.info("👈 Configure parameters in the sidebar and click **Run Comparison** to start. Be aware that running the computations for the bootstrapping test may take some time and scales exponentially with the grid points.")
         
         st.markdown("""
         ### About this Application
@@ -497,10 +497,11 @@ def main():
         
         #### The Four Tests:
         
-        1. **3SD Test**: Classic range-based test
+        1. **x*SD Test**: Classic range-based test to check if X% of TP  is within x*SD of RP 
         2. **TOST**: Two One-Sided Tests for equivalence
-        3. **Min-Max Test**: Test range within reference min-max
-        4. **Bootstrap Test**: Novel bootstrap-based test (Zahel, 2022)
+        3. **Min-Max Test**: Test if X% of TP is within [min, max] range of RP
+        4. **Bootstrap Test**: Novel bootstrap-based test of the range test (Zahel, 2022)
+        
         
         #### Output:
         
@@ -530,12 +531,12 @@ def main():
     boundary_results = {}
     
     # Compute grids for each test
-    st.subheader("1️⃣ Computing 3SD Test...")
+    st.subheader("1️⃣ Computing x*SD Test...")
     results['3SD'] = compute_contour_grid(
         test_3sd, mean_diffs, sd_ratios, n_ref, n_test, n_repeats,
         p_tp=p_tp, p_rp=p_rp
     )
-    st.text("Computing boundary points for 3SD test...")
+    st.text("Computing boundary points for x*SD test...")
     boundary_results['3SD'] = compute_boundary_acceptance_rates(
         test_3sd, n_ref, n_test, n_repeats, p_tp, p_rp,
         n_boundary_points=20
@@ -591,7 +592,7 @@ def main():
     # Determine which tests to plot
     test_names = ['3SD', 'TOST', 'MinMax']
     test_titles = [
-        f'3SD Test ({p_rp*100:.0f}% → {norm.ppf((1+p_rp)/2):.2f} SD)',
+        f'x*SD Test ({p_rp*100:.0f}% → {norm.ppf((1+p_rp)/2):.2f} SD)',
         f'TOST Test (Margin = {tost_margin:.1f} × SD_ref)',
         f'Min-Max Test ({p_tp*100:.0f}% within sample range)'
     ]
@@ -617,13 +618,20 @@ def main():
     # Add overall title
     fig.update_layout(
         title={
-            'text': f'Biosimilarity Test Comparison<br>Similarity Condition: {p_tp*100:.0f}% of Test within {p_rp*100:.0f}% of Reference<br>n_ref={n_ref}, n_test={n_test}, {n_repeats} simulations/point',
+            'text': f'Biosimilarity Test Comparison, Similarity Condition: {p_tp*100:.0f}% of Test within {p_rp*100:.0f}% of Reference, n_ref={n_ref}, n_test={n_test}, {n_repeats} simulations/point',
             'x': 0.5,
             'xanchor': 'center',
             'font': {'size': 14}
         },
         height=800 if n_tests == 4 else 500,
-        showlegend=False
+        showlegend=True,
+        legend=dict(
+            orientation='v',
+            yanchor='middle',
+            y=0.5,
+            xanchor='right',
+            x=-0.05
+        )
     )
     
     # Plot each test
@@ -679,7 +687,9 @@ def main():
                 line=dict(color='red', width=3),
                 showscale=False,
                 hoverinfo='skip',
-                name='5% Isoline'
+                name='5% Acceptance Rate',
+                showlegend=(idx == 0),
+                legendgroup='5percent'
             ),
             row=row, col=col
         )
@@ -693,8 +703,9 @@ def main():
                 y=bound_y[valid_mask],
                 mode='lines',
                 line=dict(color='blue', width=3, dash='dash'),
-                name='Decision Boundary',
-                showlegend=False,
+                name='Similarity Condition Boundary',
+                showlegend=(idx == 0),
+                legendgroup='boundary',
                 hoverinfo='skip'
             ),
             row=row, col=col
@@ -766,8 +777,8 @@ def main():
                 grid, mean_diffs, sd_ratios, p_tp, p_rp, boundary_rates=boundary_rates_for_calc
             )
             
-            st.metric("Mean Acceptance Rate", f"{np.mean(grid)*100:.1f}%")
-            st.metric("Type I Error (α)", f"{type_i*100:.1f}%")
+            #st.metric("Mean Acceptance Rate", f"{np.mean(grid)*100:.1f}%")
+            st.metric("Type I Error at decision boundary (α)", f"{type_i*100:.1f}%")
             st.metric("Type II Error (β)", f"{type_ii*100:.1f}%")
             st.metric("Power (1-β)", f"{(1-type_ii)*100:.1f}%")
     
@@ -785,7 +796,7 @@ def main():
     
     ---
     
-    #### 1️⃣ 3SD Test (Range-Based Test)
+    #### 1️⃣ x*SD Test (Range-Based Test)
     
     **Principle:** Classic approach using standard deviations to define acceptance range.
     

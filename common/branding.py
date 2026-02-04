@@ -17,6 +17,8 @@ class BrandingConfig:
     link_url: Optional[str] = None
     # Optional explicit favicon path. If None, we use static/common/brands/favicon-light-mode.ico if present.
     page_icon_path: Optional[str] = None
+    # Layout mode: 'centered' or 'wide'
+    layout: str = "centered"
 
 
 def _repo_root_from_this_file() -> Path:
@@ -121,9 +123,9 @@ def apply_branding(config: BrandingConfig) -> None:
 
     # Must be first Streamlit call in the app.
     if page_icon is not None:
-        st.set_page_config(page_title=config.app_title, layout="centered", page_icon=page_icon)
+        st.set_page_config(page_title=config.app_title, layout=config.layout, page_icon=page_icon)
     else:
-        st.set_page_config(page_title=config.app_title, layout="centered")
+        st.set_page_config(page_title=config.app_title, layout=config.layout)
 
     logo_path = root / "static" / "common" / "brands" / "logo.svg"
 
