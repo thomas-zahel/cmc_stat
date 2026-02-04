@@ -763,6 +763,9 @@ def main():
     
     cols = st.columns(len(test_names))
     
+    # Store results for summary
+    error_results = {}
+    
     for col, test_name in zip(cols, test_names):
         with col:
             st.subheader(test_name)
@@ -777,10 +780,37 @@ def main():
                 grid, mean_diffs, sd_ratios, p_tp, p_rp, boundary_rates=boundary_rates_for_calc
             )
             
-            #st.metric("Mean Acceptance Rate", f"{np.mean(grid)*100:.1f}%")
-            st.metric("Type I Error at decision boundary (α)", f"{type_i*100:.1f}%")
+            # Store for summary
+            error_results[test_name] = {'type_i': type_i, 'type_ii': type_ii}
+            
+            # Display Type I error with conditional formatting
+            type_i_pct = type_i * 100
+            if type_i_pct > 5.0:
+                st.markdown(f"**Type I Error at decision boundary (α)**")
+                st.markdown(f"<p style='color: red; font-size: 24px; font-weight: bold;'>{type_i_pct:.1f}% ⚠️</p>", unsafe_allow_html=True)
+            else:
+                st.metric("Type I Error at decision boundary (α)", f"{type_i_pct:.1f}%")
+            
             st.metric("Type II Error (β)", f"{type_ii*100:.1f}%")
             st.metric("Power (1-β)", f"{(1-type_ii)*100:.1f}%")
+    
+    # Add summary text
+    st.markdown("---")
+    st.subheader("Type I Error Control Summary")
+    
+    tests_controlled = [name for name, errors in error_results.items() if errors['type_i'] <= 0.05]
+    tests_inflated = [name for name, errors in error_results.items() if errors['type_i'] > 0.05]
+    
+    if tests_controlled:
+        st.success(f"✅ **Tests achieving Type I error ≤ 5%:** {', '.join(tests_controlled)}")
+    
+    if tests_inflated:
+        inflated_details = [f"{name} ({error_results[name]['type_i']*100:.1f}%)" for name in tests_inflated]
+        st.error(f"⚠️ **Tests with Type I error > 5%:** {', '.join(inflated_details)}")
+        st.warning("High Type I error indicates the test may incorrectly accept non-similar products at the decision boundary more often than the nominal 5% significance level.")
+    
+    if not tests_inflated and tests_controlled:
+        st.info(f"All tests control Type I error at or below the nominal 5% level for the similarity condition: {p_tp*100:.0f}% of test within {p_rp*100:.0f}% of reference.")
     
     # ========================================================================
     # TEST EXPLANATIONS
