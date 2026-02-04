@@ -47,9 +47,9 @@ def biosimilarity_bootstrap_test(
     n_tp = len(tp)
     n_rp = len(rp)
 
-    # Quantiles of standard normal
-    z_tp = norm.ppf(p_tp)
-    z_rp = norm.ppf(p_rp)
+    # Quantiles of standard normal (two-sided)
+    z_tp = norm.ppf((1 + p_tp) / 2)
+    z_rp = norm.ppf((1 + p_rp) / 2)
 
     def test_statistic(mu_tp, sd_tp, mu_rp, sd_rp):
         return (

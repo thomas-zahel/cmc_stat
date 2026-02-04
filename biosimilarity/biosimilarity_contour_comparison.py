@@ -12,7 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from common.branding import BrandingConfig, apply_branding
-from common.bootstrap_biosimilarity_test import biosimilarity_bootstrap_test
+from common.bootstrap_biosimilarity_test_numba import biosimilarity_bootstrap_test
 
 apply_branding(
     BrandingConfig(
@@ -222,7 +222,7 @@ def compute_boundary_acceptance_rates(test_func, n_ref, n_test,
     boundary_sd_ratios_full = (z_rp / z_tp) - boundary_mean_diffs_full / z_tp
     
     # Filter to valid SD ratios (positive and reasonable range)
-    valid_mask = (boundary_sd_ratios_full > 0.1) & (boundary_sd_ratios_full < 2.5)
+    valid_mask = (boundary_sd_ratios_full > 0.01) & (boundary_sd_ratios_full < 2.5)
     boundary_mean_diffs_filtered = boundary_mean_diffs_full[valid_mask]
     boundary_sd_ratios_filtered = boundary_sd_ratios_full[valid_mask]
     
@@ -297,7 +297,7 @@ def compute_decision_boundary(p_tp, p_rp):
     # From test statistic: sd_ratio - (z_rp/z_tp) + |mean_diff|/z_tp = 0
     mean_diffs = np.linspace(0, 5, 100)
     sd_ratios = (z_rp / z_tp) - mean_diffs / z_tp
-    sd_ratios = np.maximum(0.1, sd_ratios)  # Keep positive
+    sd_ratios = np.maximum(0.01, sd_ratios)  # Keep positive
     
     return mean_diffs, sd_ratios
 
@@ -431,9 +431,9 @@ def main():
         grid_size = st.slider(
             "Grid Size (points per dimension):",
             min_value=5,
-            max_value=50,
-            value=15,
-            step=5,
+            max_value=20,
+            value=5,
+            step=2,
             help="Higher values = more detail but slower computation"
         )
         
@@ -524,7 +524,7 @@ def main():
     
     # Define parameter grid
     mean_diffs = np.linspace(0, 5, grid_size)
-    sd_ratios = np.linspace(0.1, 2.5, grid_size)
+    sd_ratios = np.linspace(0.01, 2.5, grid_size)
     
     # Container for results
     results = {}
